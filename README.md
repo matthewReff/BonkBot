@@ -8,7 +8,7 @@ Communicates with an AWS hosted HTTP API Gateway
 
 [Python Pip](https://pip.pypa.io/en/stable/installation/)
 
-[Discord.py](https://discordpy.readthedocs.io/en/stable/intro.html#installing)
+[Pycord](https://docs.pycord.dev/en/stable/installing.html)
 
 # Setting up the bot user
 [Go to the discord app page](https://discord.com/developers/applications)
