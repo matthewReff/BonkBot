@@ -10,6 +10,8 @@ Communicates with an AWS hosted HTTP API Gateway
 
 [Pycord](https://docs.pycord.dev/en/stable/installing.html)
 
+[Requests Library](https://requests.readthedocs.io/en/latest/user/install/#python-m-pip-install-requests)
+
 # Setting up the bot user
 [Go to the discord app page](https://discord.com/developers/applications)
 
