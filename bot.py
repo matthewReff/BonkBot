@@ -16,7 +16,7 @@ async def jail(
     offense: Option(str, "What they should go to jail for")
 ):
     resultOrError = jailCall(ctx.guild_id, user.id, offense)
-    await ctx.respond(f"Succeeded: {resultOrError.isSuccess()}\nresult: {json.dumps(resultOrError.result)}\nerror: {resultOrError.error}")
+    await debugLogResultOrError(ctx, resultOrError)
 
 @bot.slash_command(name="addoffense", guild_only = True, description="Add a new jailable offense")
 async def addOffense(
@@ -24,8 +24,7 @@ async def addOffense(
     offense: Option(str, "Name of the offense you want to add")
 ):
     resultOrError = addOffenseCall(ctx.guild_id, offense)
-    await ctx.respond(f"Succeeded: {resultOrError.isSuccess()}\nresult: {json.dumps(resultOrError.result)}\nerror: {resultOrError.error}")
-
+    await debugLogResultOrError(ctx, resultOrError)
 
 @bot.slash_command(name="rapsheet", guild_only = True, description="Get a list of offenses for the user")
 async def rapSheet(
@@ -33,14 +32,14 @@ async def rapSheet(
     user: Option(SlashCommandOptionType.user, "Whose rapsheet to find")
 ):
     resultOrError = rapsheetCall(ctx.guild_id, user.id)
-    await ctx.respond(f"Succeeded: {resultOrError.isSuccess()}\nresult: {json.dumps(resultOrError.result)}\nerror: {resultOrError.error}")
+    await debugLogResultOrError(ctx, resultOrError)
 
 @bot.slash_command(name="getoffenses", guild_only = True, description="Get the list of valid offenses for the server")
 async def getOffenses(
     ctx: ApplicationContext
 ):
     resultOrError = getOffensesCall(ctx.guild_id)
-    await ctx.respond(f"Succeeded: {resultOrError.isSuccess()}\nresult: {json.dumps(resultOrError.result)}\nerror: {resultOrError.error}")
+    await debugLogResultOrError(ctx, resultOrError)
 
 @bot.event
 async def on_ready():
@@ -50,6 +49,15 @@ if len(sys.argv) != 2:
     print("You need to provide the bot token when you startup the bot")
     exit()
 
-    
+async def debugLogResultOrError(ctx, resultOrError):
+    message = f"Succeeded: {resultOrError.isSuccess()}"
+    if resultOrError.result != None:
+        message += "\n"
+        message += f"result: {json.dumps(resultOrError.result)}"
+    if resultOrError.error != None:
+        message += "\n"
+        message += f"error: {resultOrError.error.status} {resultOrError.error.message}"
+    await ctx.respond(message)
+
 botToken = sys.argv[1]
 bot.run(botToken)
