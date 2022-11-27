@@ -29,7 +29,7 @@ def jailCall(serverId, userId, offenseName) -> ResultOrError:
                 "offenseName": offenseName,
             }
         )
-        apiResponse = requests.post(JAIL_ENDPOINT, data=requestJson)
+        apiResponse = requests.post(JAIL_ENDPOINT, data=requestJson, timeout=3)
         return ResultOrError(apiResponse)
     except Exception as e:
         error = Error(HTTPStatus.BAD_REQUEST, "Unhandled exception while making api call: " + str(e))
@@ -43,7 +43,7 @@ def addOffenseCall(serverId, offenseName) -> ResultOrError:
                 "offenseName": offenseName,
             }
         )
-        apiResponse = requests.put(ADD_OFFENSE_ENDPOINT, data=requestJson)
+        apiResponse = requests.put(ADD_OFFENSE_ENDPOINT, data=requestJson, timeout=3)
         return ResultOrError(apiResponse)
     except Exception as e:
         error = Error(HTTPStatus.BAD_REQUEST, "Unhandled exception while making api call: " + str(e))
@@ -57,7 +57,7 @@ def rapsheetCall(serverId, userId) -> ResultOrError:
                 "userId": str(userId),
             }
         )
-        apiResponse = requests.post(RAP_SHEET_ENDPOINT, data=requestJson)
+        apiResponse = requests.post(RAP_SHEET_ENDPOINT, data=requestJson, timeout=3)
         return ResultOrError(apiResponse)
     except Exception as e:
         error = Error(HTTPStatus.BAD_REQUEST, "Unhandled exception while making api call: " + str(e))
@@ -70,7 +70,7 @@ def getOffensesCall(serverId) -> ResultOrError:
                 "serverId": str(serverId)
             }
         )
-        apiResponse = requests.post(GET_OFFENSES_ENDPOINT, data=requestJson)
+        apiResponse = requests.post(GET_OFFENSES_ENDPOINT, data=requestJson, timeout=3)
         return ResultOrError(apiResponse)
     except Exception as e:
         error = Error(HTTPStatus.BAD_REQUEST, "Unhandled exception while making api call: " + str(e))
