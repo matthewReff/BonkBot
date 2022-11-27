@@ -8,6 +8,7 @@ import requests
 API_BASE_URL = "https://testapi.tendec.dev/"
 JAIL_ENDPOINT = API_BASE_URL + "v1/jail"
 ADD_OFFENSE_ENDPOINT = API_BASE_URL + "v1/addoffense"
+GET_OFFENSES_ENDPOINT = API_BASE_URL + "v1/getoffenses"
 RAP_SHEET_ENDPOINT = API_BASE_URL + "v1/rapsheet"
 
 intents = discord.Intents.default()
@@ -60,10 +61,28 @@ async def rapSheet(
     result = requests.post(RAP_SHEET_ENDPOINT, data=requestJson)
 
     await ctx.respond(f"Got back: {result.status_code}, {result.text}")
-    
+
+@bot.slash_command(name="getoffenses", guild_only = True, description="Get the list of valid offenses for the server")
+async def getOffenses(
+    ctx: ApplicationContext
+):
+    requestJson = json.dumps(
+        {
+            "serverId": str(ctx.guild_id)
+        }
+    )
+    result = requests.post(GET_OFFENSES_ENDPOINT, data=requestJson)
+
+    await ctx.respond(f"Got back: {result.status_code}, {result.text}")
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} is online.')
+
 if len(sys.argv) != 2:
     print("You need to provide the bot token when you startup the bot")
     exit()
 
+    
 botToken = sys.argv[1]
 bot.run(botToken)
