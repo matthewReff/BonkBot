@@ -51,7 +51,9 @@ async def getOffenseListString(ctx):
         await ctx.respond("Unknown error")
 
     offenseList = resultOrError.result["offenses"]
-    return ", ".join(offenseList)
+    returnString = "Possible Offenses: "
+    returnString += ", ".join(offenseList)
+    return returnString
 
 async def getRapsheetString(ctx, user):
     resultOrError = rapsheetCall(ctx.guild_id, user.id)
@@ -60,11 +62,18 @@ async def getRapsheetString(ctx, user):
 
     rapsheet = resultOrError.result["rapSheet"]
 
-    returnString = ""
+    returnString = f"{user.name} has gone to jail for the following offenses:\n"
     for offenseName in rapsheet.keys():
         offenseCount = rapsheet.get(offenseName)
-        returnString += offenseName + " : " + offenseCount + "\n";
+        returnString += offenseName + ", " + offenseCount + " " + getCountString(offenseCount) + "\n";
     return returnString
+
+# l18n nightmare, nice
+def getCountString(number):
+    if number == 1:
+        return "count"
+    else:
+        return "counts"
 
 @bot.event
 async def on_ready():
