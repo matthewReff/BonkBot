@@ -51,7 +51,7 @@ async def getOffenseListString(ctx):
         await ctx.respond("Unknown error")
 
     offenseList = resultOrError.result["offenses"]
-    return offenseList.join(",")
+    return ", ".join(offenseList)
 
 async def getRapsheetString(ctx, user):
     resultOrError = rapsheetCall(ctx.guild_id, user.id)
